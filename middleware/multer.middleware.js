@@ -15,7 +15,7 @@ const Storage = multer.diskStorage({
 const uploadFile = multer({
   storage: Storage,
   limits: { fileSize: maxSize }
-}).single('photo')
+}).array('photo', 4)
 
 const uploadFileMiddleware = util.promisify(uploadFile)
 module.exports = uploadFileMiddleware
