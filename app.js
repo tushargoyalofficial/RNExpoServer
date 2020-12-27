@@ -29,17 +29,7 @@ const Storage = multer.diskStorage({
     callback(null, './uploads/images')
   },
   filename (req, file, callback) {
-    if (typeof file === 'string') {
-      console.log('file is string')
-      const newFile = JSON.parse(file)
-      callback(
-        null,
-        `${newFile.fieldname}_${Date.now()}_${newFile.originalname}`
-      )
-    } else {
-      console.log('file is not string')
-      callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
-    }
+    callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
   }
 })
 
