@@ -29,23 +29,52 @@ const Storage = multer.diskStorage({
     callback(null, './uploads/images')
   },
   filename (req, file, callback) {
-    callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
+    if (typeof file === 'string') {
+      console.log('file is string')
+      const newFile = JSON.parse(file)
+      callback(
+        null,
+        `${newFile.fieldname}_${Date.now()}_${newFile.originalname}`
+      )
+    } else {
+      console.log('file is not string')
+      callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
+    }
   }
 })
 
-app.post('/api/upload', (req, res) => {
-  const upload = multer({ storage: Storage }).single('picture')
-  upload(req, res, function (err) {
+const upload = multer({ storage: Storage })
+
+app.post('/api/upload', upload.single('photo'), (req, res) => {
+  // upload(request, response, function (err) {
+  //   if (!request.file) {
+  //     return response.send("Please select an image to upload");
+  //   } else if (err instanceof multer.MulterError) {
+  //     return response.send(err);
+  //   } else if (err) {
+  //     return response.send(err);
+  //   }
+  // });
+
+  // Display uploaded image for user validation
+  try {
+    console.log('file', req.files)
+    console.log('body', req.body)
     if (!req.file) {
-      return res.send('Please select an image to upload')
-    } else if (err instanceof multer.MulterError) {
-      return res.send(err)
-    } else if (err) {
-      return res.send(err)
+      return res.status(401).json({
+        message: 'Please select an image to upload'
+      })
     }
-    // Display uploaded image for user validation
-    res.send(req.file.path) // send uploaded image
-  })
+    return res.status(201).json({
+      message: 'File uploded successfully',
+      file: req.file.path
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(401).json({
+      message: 'File upload failed'
+    })
+  }
 })
 
 // catch 404 and forward to error handler
