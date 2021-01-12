@@ -3,19 +3,26 @@ const path = require('path')
 const express = require('express')
 const router = express.Router()
 const uploadFile = require('../middleware/multer.middleware')
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
-const baseUrl = 'https://rnexpo-server.herokuapp.com/'
+const baseUrl = process.env.HOST
 
 router.post('/upload', async (req, res) => {
   try {
     await uploadFile(req, res)
 
-    if (req.file === undefined) {
-      return res.status(400).send({ message: 'Please upload a file!' })
+    // FOR SINGLE FILE
+    // if (req.file === undefined) {
+    //   return res.status(400).send({ message: 'Please upload a file!' })
+    // }
+
+    // FOR MULTIPLE FILES
+    if (req.files.length <= 0) {
+      return res.status(400).send({ message: 'Please select atleast one file to upload!' })
     }
 
     res.status(200).send({
-      message: 'Uploaded the file successfully: ' + req.file.fieldname
+      message: 'Files uploaded successfully'
     })
   } catch (err) {
     if (err.code === 'LIMIT_FILE_SIZE') {
@@ -24,9 +31,11 @@ router.post('/upload', async (req, res) => {
       })
     }
 
-    res.status(500).send({
-      message: `Could not upload the file: ${req.file.fieldname}. ${err}`
-    })
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(500).send({ message: 'Too many files to upload.' })
+    }
+
+    return res.status(500).send({ message: `Error when trying upload many files: ${err}` })
   }
 })
 
