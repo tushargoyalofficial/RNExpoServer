@@ -5,7 +5,8 @@
   "scripts": {
     "pretest": "standard",
     "lint": "standard --fix --verbose | snazzy",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start:dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -17,6 +18,7 @@
     "multer": "^1.4.2"
   },
   "devDependencies": {
+    "nodemon": "^2.0.7",
     "snazzy": "^9.0.0",
     "standard": "^16.0.3"
   },
