@@ -36,6 +36,7 @@ functions
 # Dependency directories
 node_modules/
 jspm_packages/
+uploads/images/photo_*
 
 # Typescript v1 declaration files
 typings/

@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const myRoutes = require('./routes/index')
 
@@ -13,8 +14,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 
 app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 1000000 }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(myRoutes)
