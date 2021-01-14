@@ -9,6 +9,7 @@ https://blog.logrocket.com/node-js-docker-improve-dx/
 ```
 
 - Dockerize the app with Docker multi-stage build
+- Dockerize the app with Docker multi-stage build -t <app-name> # with name
 
 - Build command
 ```shell

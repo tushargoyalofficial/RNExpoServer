@@ -1,9 +1,15 @@
 version: '3.8'
 services:
   web:
+    container_name: rnexposerver_web
     build:
       context: ./
       target: dev
+    networks:
+      - webnet
+    depends_on:
+      - redis
+      - postgres
     volumes:
       - .:/src
     command: npm run start:dev
@@ -12,3 +18,38 @@ services:
     environment:
       NODE_ENV: development
       DEBUG: rnexposerver:*
+      HOST: 0.0.0.0
+      PORT: 3000
+  redis:
+    container_name: redis
+    image: redis:5
+    networks:
+      - webnet
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_USER: ecorp
+      POSTGRES_PASSWORD: ecorp123
+      POSTGRES_DB: db_rnexposerver
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 35432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    networks:
+      - webnet
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ecorp.org
+      PGADMIN_DEFAULT_PASSWORD: evilcorp
+    ports:
+      - '5050:80'
+networks:
+  webnet:
+volumes:
+  pgdata:
