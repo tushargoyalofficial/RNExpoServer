@@ -1,9 +1,14 @@
-const express = require('express')
-const router = express.Router()
+'use strict'
+
+/**
+ * Module dependencies.
+ */
+import { Router } from 'express'
 
 // IMPORT OTHER ROUTES
-const usersRouter = require('./users')
-const uploadImageRouter = require('./uploadimage')
+import usersRouter from './users.js'
+import uploadImageRouter from './uploadimage.js'
+const router = Router()
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -23,4 +28,4 @@ router.get('/ping', (req, res) => {
 router.use('/users', usersRouter)
 router.use('/image', uploadImageRouter)
 
-module.exports = router
+export default router

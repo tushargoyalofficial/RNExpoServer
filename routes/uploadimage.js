@@ -1,10 +1,20 @@
-const fs = require('fs')
-const path = require('path')
-const express = require('express')
-const router = express.Router()
-const uploadSingle = require('../middleware/singleupload.multermiddleware')
-const uploadMultiple = require('../middleware/multipleupload.multermiddleware.js')
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+'use strict'
+
+/**
+ * Module dependencies.
+ */
+import { readdir } from 'fs'
+import path, { join } from 'path'
+import { fileURLToPath } from 'url'
+import { Router } from 'express'
+import uploadSingle from '../middleware/singleupload.multermiddleware.js'
+import uploadMultiple from '../middleware/multipleupload.multermiddleware.js'
+import dotenv from 'dotenv'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const router = Router()
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 const baseUrl = process.env.HOST
 
@@ -63,9 +73,9 @@ router.post('/uploadmultiple', async (req, res) => {
 })
 
 router.get('/files', (req, res) => {
-  const directoryPath = path.join(__dirname, '../uploads/images')
+  const directoryPath = join(__dirname, '../uploads/images')
 
-  fs.readdir(directoryPath, function (err, files) {
+  readdir(directoryPath, function (err, files) {
     if (err) {
       res.status(500).send({
         message: 'Unable to scan files!'
@@ -93,7 +103,7 @@ router.get('/download/:name', (req, res) => {
       message: 'Please enter file name to download!'
     })
   }
-  const directoryPath = path.join(__dirname, '../uploads/images/')
+  const directoryPath = join(__dirname, '../uploads/images/')
   const fileName = name
   const fullDirpath = directoryPath + fileName
 
@@ -106,4 +116,4 @@ router.get('/download/:name', (req, res) => {
   })
 })
 
-module.exports = router
+export default router

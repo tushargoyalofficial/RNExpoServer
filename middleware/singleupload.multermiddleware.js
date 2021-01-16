@@ -1,11 +1,20 @@
-const path = require('path')
-const util = require('util')
-const multer = require('multer')
+'use strict'
+
+/**
+ * Module dependencies.
+ */
+import path, { join } from 'path'
+import { fileURLToPath } from 'url'
+import { promisify } from 'util'
+import multer, { diskStorage } from 'multer'
 const maxSize = 25 * 1024 * 1024
 
-const Storage = multer.diskStorage({
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const Storage = diskStorage({
   destination: (req, file, callback) => {
-    callback(null, path.join(__dirname, '../uploads/images'))
+    callback(null, join(__dirname, '../uploads/images'))
   },
   filename: (req, file, callback) => {
     const match = ['image/png', 'image/jpeg']
@@ -26,5 +35,5 @@ const uploadFile = multer({
   limits: { fileSize: maxSize }
 }).single('photo')
 
-const uploadFileMiddleware = util.promisify(uploadFile)
-module.exports = uploadFileMiddleware
+const uploadFileMiddleware = promisify(uploadFile)
+export default uploadFileMiddleware
