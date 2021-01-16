@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict'
 
 /**
  * Module dependencies.
@@ -7,26 +8,24 @@ import app from '../app.js'
 import debug from 'debug'
 import { createServer } from 'http'
 import dotenv from 'dotenv'
+
 debug('rnexposerver:server')
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 /**
  * Get port from environment and store in Express.
  */
-
 const port = normalizePort(process.env.PORT || '3000')
 app.set('host', process.env.HOST, 'port', port)
 
 /**
  * Create HTTP server.
  */
-
 const server = createServer(app)
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)
@@ -34,7 +33,6 @@ server.on('listening', onListening)
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort (val) {
   const port = parseInt(val, 10)
 
@@ -54,7 +52,6 @@ function normalizePort (val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError (error) {
   if (error.syscall !== 'listen') {
     throw error
@@ -80,7 +77,6 @@ function onError (error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening () {
   const addr = server.address()
   const bind = typeof addr === 'string'
