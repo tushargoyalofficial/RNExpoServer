@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "standard",
     "lint": "standard --fix --verbose | snazzy",
-    "start": "NODE_ENV=development node --experimental-repl-await ./bin/www",
+    "start": "NODE_ENV=development node ./bin/www",
     "start:dev": "NODE_ENV=development nodemon ./bin/www",
     "prod": "NODE_ENV=production node ./bin/www"
   },

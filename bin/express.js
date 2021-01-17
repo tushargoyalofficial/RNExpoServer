@@ -13,19 +13,31 @@ import methodOverride from 'method-override'
 import helmet from 'helmet'
 import compress from 'compression'
 import logger from 'morgan'
-import dotenv from 'dotenv'
-
+import config from './config/config.js'
 import myRoutes from '../routes/index.js'
+import dotenv from 'dotenv'
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 const App = (db) => {
   // Initialize express app
   const app = express()
+
+  // Setting application local variables
+  app.locals.title = config.appLocale.title
+  app.locals.description = config.appLocale.description
+  app.locals.keywords = config.appLocale.keywords
+
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
   const corsOptions = {
     origin: 'http://localhost:3000'
   }
+
+  // Passing the request url to environment locals
+  app.use(function (req, res, next) {
+    res.locals.url = req.protocol + '://' + req.headers.host + req.url
+    next()
+  })
 
   // Should be placed before express.static
   app.use(compress({
@@ -34,6 +46,12 @@ const App = (db) => {
     },
     level: 9
   }))
+
+  // Environment dependent middleware
+  if (process.env.NODE_ENV === 'development') {
+  } else if (process.env.NODE_ENV === 'production') {
+    app.locals.cache = 'memory'
+  }
 
   // view engine setup
   app.set('views', join(__dirname, 'views'))

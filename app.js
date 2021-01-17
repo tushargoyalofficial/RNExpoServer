@@ -7,10 +7,8 @@ import app from './bin/express.js'
 import db from './models/index.js'
 import configInit from './bin/config/init.js'
 import config from './bin/config/config.js'
-import dotenv from 'dotenv'
 
 configInit()
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 // Get the default connection
 const { mongoose } = db
@@ -35,11 +33,11 @@ conn.on('reconnected', function () {
 })
 conn.on('disconnected', function () {
   console.log('Disconnected from MongoAtlas.')
-  console.log('DB URI is: ' + process.env.DB_URL)
-  mongoose.connect(config.db, config.dbOptions)
+  console.log('DB URI is: ' + config.dbURL)
+  mongoose.connect(config.dbURL, config.dbOptions)
 })
 
 // Set up default mongoose connection to MongoDB Atlas
-mongoose.connect(config.db, config.dbOptions)
+mongoose.connect(config.dbURL, config.dbOptions)
 
 export default app(db)

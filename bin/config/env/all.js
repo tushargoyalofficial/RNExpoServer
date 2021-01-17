@@ -1,5 +1,8 @@
 'use strict'
 
+import dotenv from 'dotenv'
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
+
 export const appLocale = {
   title: 'RNExpoServer',
   description: 'Node JS based server for RN Expo Demo App.',
@@ -11,7 +14,7 @@ export const dbOptions = {
   useCreateIndex: true,
   useFindAndModify: false
 }
-export const jwt = {
+export const JWT = {
   expirySeconds: 900,
   tokenExpiryDays: 7,
   pkiExpiryDays: 30
