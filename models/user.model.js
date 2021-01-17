@@ -37,6 +37,11 @@ const UserSchema = new Schema({
     type: String,
     trim: true
   },
+  username: {
+    type: String,
+    trim: true,
+    unique: 'Username already in the database'
+  },
   email: {
     type: String,
     trim: true,

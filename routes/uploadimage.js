@@ -7,8 +7,7 @@ import { readdir } from 'fs'
 import path, { join } from 'path'
 import { fileURLToPath } from 'url'
 import { Router } from 'express'
-import uploadSingle from '../middleware/singleupload.multermiddleware.js'
-import uploadMultiple from '../middleware/multipleupload.multermiddleware.js'
+import { uploadSingle, uploadMultiple } from '../middleware/index.js'
 import dotenv from 'dotenv'
 
 const __filename = fileURLToPath(import.meta.url)
