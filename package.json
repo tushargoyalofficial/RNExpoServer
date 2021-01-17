@@ -1,6 +1,7 @@
 {
   "name": "rnexposerver",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "app.js",
   "private": true,
   "scripts": {
     "pretest": "standard",
@@ -11,14 +12,18 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "glob": "^7.1.6",
     "hbs": "~4.0.4",
+    "helmet": "^4.3.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.11.11",
     "morgan": "~1.9.1",
     "multer": "^1.4.2"
@@ -29,7 +34,12 @@
     "standard": "^16.0.3"
   },
   "engines": {
-    "node": "14.x"
+    "node": "14.x",
+    "npm": "6.14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tushargoyalofficial/RNExpoServer.git"
   },
   "type": "module"
 }
