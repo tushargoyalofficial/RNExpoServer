@@ -56,12 +56,10 @@ const UserSchema = new Schema({
     default: '',
     validate: [validateLocalStrategyPassword, 'Password should be longer']
   },
-  roles: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Role'
-    }
-  ],
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: 'Role'
+  },
   active: {
     type: Boolean,
     default: false
