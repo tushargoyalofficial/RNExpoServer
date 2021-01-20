@@ -85,10 +85,10 @@ UserSchema.pre('save', function (next) {
   const currentDate = new Date()
 
   // change the updated field to current date
-  this.updated = currentDate
+  this.updatedAt = currentDate
 
   // if created doesn't exist, add to that field
-  if (!this.created) { this.created = currentDate }
+  if (!this.createdAt) { this.createdAt = currentDate }
 
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next()
